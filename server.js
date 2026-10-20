@@ -1,24 +1,18 @@
 
 const http = require("http");
 
-const shouldFail = process.env.DEMO_FAIL === "true";
-
-// Intentionally fail when DEMO_FAIL is set to "true"
-if (shouldFail) {
-  console.error("DEMO ERROR: Application startup failed.");
-  console.error("Reason: DEMO_FAIL is set to true.");
-  console.error("Fix: Set DEMO_FAIL to false or remove it.");
-  process.exit(1);
-}
+// Intentionally use a required variable without checking
+// whether it exists first.
+const allowedOrigins = process.env.DEMO_REQUIRED_ORIGINS.split(",");
 
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
   res.writeHead(200, { "Content-Type": "text/plain" });
-  res.end("Railway test app is running successfully!");
+  res.end("Application is running.");
 });
 
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`App is running on port ${PORT}`);
-  console.log("To test a failure, set DEMO_FAIL=true.");
+  console.log("Application started successfully.");
+  console.log(`Allowed origins configured: ${allowedOrigins.length}`);
 });
